@@ -1,0 +1,23 @@
+
+> backend@1.0.0 dev
+> ts-node src/index.ts
+
+S:\Internship\backend\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^
+TSError: ⨯ Unable to compile TypeScript:
+error TS5107: Option 'moduleResolution=node10' is deprecated and will stop functioning in TypeScript 7.0. Specify compilerOption '"ignoreDeprecations": "6.0"' to silence this error.
+  Visit https://aka.ms/ts6 for migration information.
+
+    at createTSError (S:\Internship\backend\node_modules\ts-node\src\index.ts:859:12)
+    at reportTSError (S:\Internship\backend\node_modules\ts-node\src\index.ts:863:19)
+    at S:\Internship\backend\node_modules\ts-node\src\index.ts:1379:34
+    at Object.compile (S:\Internship\backend\node_modules\ts-node\src\index.ts:1458:13)
+    at Module.m._compile (S:\Internship\backend\node_modules\ts-node\src\index.ts:1617:30)
+    at node:internal/modules/cjs/loader:1839:10
+    at Object.require.extensions.<computed> [as .js] (S:\Internship\backend\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
+  diagnosticCodes: [ 5107 ]
+}

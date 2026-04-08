@@ -44,6 +44,7 @@ router.post('/parse', async (req: AuthRequest, res) => {
     const result = await parseJobDescription(jd);
     res.json(result);
   } catch (error) {
+    console.error('AI Parsing Error:', error);
     res.status(500).json({ error: 'Failed to parse JD' });
   }
 });
