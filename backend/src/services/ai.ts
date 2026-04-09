@@ -40,8 +40,8 @@ export const parseJobDescription = async (jd: string) => {
           Extract:
           - companyName
           - role
-          - requiredSkills (array)
-          - niceToHaveSkills (array)
+          - skills (array)
+          - niceToHave (array)
           - seniority
           - location
           - threeToFiveResumeBulletPoints (specifically tailored for this role and JD)

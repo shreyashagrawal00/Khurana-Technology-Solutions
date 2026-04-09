@@ -9,10 +9,11 @@ router.use(authenticateToken);
 
 router.get('/', async (req: AuthRequest, res) => {
   try {
-    const applications = await Application.find({ userId: req.userId as any });
+    const applications = await Application.find({ userId: req.userId });
     res.json(applications);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch applications' });
+    console.error('Fetch Applications Error:', error);
+    res.status(500).json({ error: 'Failed to fetch applications', details: error });
   }
 });
 
@@ -34,7 +35,8 @@ router.post('/', async (req: AuthRequest, res) => {
     await application.save();
     res.status(201).json(application);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to create application' });
+    console.error('Create Application Error:', error);
+    res.status(500).json({ error: 'Failed to create application', details: error });
   }
 });
 
@@ -45,29 +47,38 @@ router.post('/parse', async (req: AuthRequest, res) => {
     res.json(result);
   } catch (error) {
     console.error('AI Parsing Error:', error);
-    res.status(500).json({ error: 'Failed to parse JD' });
+    res.status(500).json({ error: 'Failed to parse JD', details: error });
   }
 });
 
 router.put('/:id', async (req: AuthRequest, res) => {
   try {
+    const { _id, userId, ...updateData } = req.body;
     const application = await Application.findOneAndUpdate(
       { _id: req.params.id, userId: req.userId },
-      req.body,
+      updateData,
       { new: true }
     );
+    if (!application) {
+      return res.status(404).json({ error: 'Application not found or unauthorized' });
+    }
     res.json(application);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to update application' });
+    console.error('Update Application Error:', error);
+    res.status(500).json({ error: 'Failed to update application', details: error });
   }
 });
 
 router.delete('/:id', async (req: AuthRequest, res) => {
   try {
-    await Application.findOneAndDelete({ _id: req.params.id as any, userId: req.userId as any });
-    res.json({ message: 'Application deleted' });
+    const application = await Application.findOneAndDelete({ _id: req.params.id, userId: req.userId });
+    if (!application) {
+      return res.status(404).json({ error: 'Application not found or unauthorized' });
+    }
+    res.json({ message: 'Application deleted successfully' });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to delete application' });
+    console.error('Delete Application Error:', error);
+    res.status(500).json({ error: 'Failed to delete application', details: error });
   }
 });
 

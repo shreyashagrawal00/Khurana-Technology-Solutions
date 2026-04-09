@@ -5,8 +5,10 @@ export const authenticateToken = (req, res, next) => {
     if (!token)
         return res.sendStatus(401);
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err)
+        if (err) {
+            console.error('JWT Verification Error:', err);
             return res.sendStatus(403);
+        }
         req.userId = decoded.userId;
         next();
     });

@@ -1,0 +1,10 @@
+
+> backend@1.0.0 build
+> tsc
+
+src/index.ts(7,24): error TS2835: Relative import paths need explicit file extensions in ECMAScript imports when '--moduleResolution' is 'node16' or 'nodenext'. Did you mean './routes/auth.js'?
+src/index.ts(8,31): error TS2835: Relative import paths need explicit file extensions in ECMAScript imports when '--moduleResolution' is 'node16' or 'nodenext'. Did you mean './routes/applications.js'?
+src/routes/applications.ts(2,25): error TS2835: Relative import paths need explicit file extensions in ECMAScript imports when '--moduleResolution' is 'node16' or 'nodenext'. Did you mean '../models/Application.js'?
+src/routes/applications.ts(3,48): error TS2835: Relative import paths need explicit file extensions in ECMAScript imports when '--moduleResolution' is 'node16' or 'nodenext'. Did you mean '../middleware/auth.js'?
+src/routes/applications.ts(4,37): error TS2835: Relative import paths need explicit file extensions in ECMAScript imports when '--moduleResolution' is 'node16' or 'nodenext'. Did you mean '../services/ai.js'?
+src/routes/auth.ts(4,18): error TS2835: Relative import paths need explicit file extensions in ECMAScript imports when '--moduleResolution' is 'node16' or 'nodenext'. Did you mean '../models/User.js'?
