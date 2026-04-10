@@ -5,9 +5,10 @@ interface ColumnProps {
   id: string;
   title: string;
   applications: any[];
+  onApplicationClick: (app: any) => void;
 }
 
-export default function Column({ id, title, applications }: ColumnProps) {
+export default function Column({ id, title, applications, onApplicationClick }: ColumnProps) {
   const { setNodeRef } = useDroppable({ id });
 
   return (
@@ -24,7 +25,7 @@ export default function Column({ id, title, applications }: ColumnProps) {
       
       <div className="flex flex-col gap-3">
         {applications.map((app) => (
-          <Card key={app._id} application={app} />
+          <Card key={app._id} application={app} onClick={() => onApplicationClick(app)} />
         ))}
       </div>
     </div>

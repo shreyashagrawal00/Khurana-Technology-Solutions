@@ -2,7 +2,7 @@ import { useDraggable } from '@dnd-kit/core';
 import { motion } from 'framer-motion';
 import { Building2, Calendar } from 'lucide-react';
 
-export default function Card({ application }: { application: any }) {
+export default function Card({ application, onClick }: { application: any, onClick?: () => void }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: application._id,
   });
@@ -17,6 +17,7 @@ export default function Card({ application }: { application: any }) {
       style={style}
       {...listeners}
       {...attributes}
+      onClick={onClick}
       className={`glass-card cursor-grab active:cursor-grabbing relative overflow-hidden rounded-xl p-4 ${isDragging ? 'z-50 opacity-50' : ''}`}
     >
       <div className="absolute left-0 top-0 h-full w-1 bg-purple-500/50" />

@@ -3,10 +3,13 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import API from '../services/api';
 import KanbanBoard from './KanbanBoard';
 import AddApplicationModal from './AddApplicationModal';
+import ViewApplicationModal from './ViewApplicationModal';
+import Analytics from './Analytics';
 import { Plus } from 'lucide-react';
 
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedApp, setSelectedApp] = useState<any>(null);
   const queryClient = useQueryClient();
 
   const { data: applications, isLoading } = useQuery({
@@ -23,8 +26,8 @@ export default function Dashboard() {
     <div>
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold">Board</h2>
-          <p className="text-gray-400">Manage your job search pipeline</p>
+          <h2 className="text-3xl font-bold mb-1">Board</h2>
+          <p className="text-gray-400 text-sm">Manage your job search pipeline</p>
         </div>
         <button 
           onClick={() => setIsModalOpen(true)}
@@ -34,7 +37,12 @@ export default function Dashboard() {
         </button>
       </div>
 
-      <KanbanBoard applications={applications || []} />
+      <Analytics applications={applications || []} />
+
+      <KanbanBoard 
+        applications={applications || []} 
+        onApplicationClick={(app: any) => setSelectedApp(app)} 
+      />
 
       {isModalOpen && (
         <AddApplicationModal 
@@ -43,6 +51,13 @@ export default function Dashboard() {
             queryClient.invalidateQueries({ queryKey: ['applications'] });
             setIsModalOpen(false);
           }}
+        />
+      )}
+
+      {selectedApp && (
+        <ViewApplicationModal
+          application={selectedApp}
+          onClose={() => setSelectedApp(null)}
         />
       )}
     </div>

@@ -1,7 +1,7 @@
 import express from 'express';
 import Application from '../models/Application';
 import { authenticateToken, AuthRequest } from '../middleware/auth';
-import { parseJobDescription } from '../services/ai';
+import { parseJobDescription, generateCoverLetter } from '../services/ai';
 
 const router = express.Router();
 
@@ -48,6 +48,17 @@ router.post('/parse', async (req: AuthRequest, res) => {
   } catch (error) {
     console.error('AI Parsing Error:', error);
     res.status(500).json({ error: 'Failed to parse JD', details: error });
+  }
+});
+
+router.post('/generate-cover-letter', async (req: AuthRequest, res) => {
+  try {
+    const { company, role, jd } = req.body;
+    const coverLetter = await generateCoverLetter(company, role, jd);
+    res.json({ coverLetter });
+  } catch (error) {
+    console.error('AI Cover Letter Error:', error);
+    res.status(500).json({ error: 'Failed to generate cover letter', details: error });
   }
 });
 

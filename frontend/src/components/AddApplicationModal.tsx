@@ -24,8 +24,8 @@ export default function AddApplicationModal({ onClose, onSuccess }: { onClose: (
   const handleSave = async () => {
     try {
       await API.post('/applications', {
-        company: parsedData.companyName,
-        role: parsedData.role,
+        company: parsedData.companyName || 'Unknown Company',
+        role: parsedData.role || 'Unknown Role',
         notes: jd,
         parsedData: {
           skills: parsedData.requiredSkills,
@@ -76,11 +76,11 @@ export default function AddApplicationModal({ onClose, onSuccess }: { onClose: (
             <div className="grid grid-cols-2 gap-4">
               <div className="rounded-xl bg-white/5 p-4">
                 <p className="text-xs text-gray-400">Company</p>
-                <p className="font-semibold">{parsedData.companyName}</p>
+                <p className="font-semibold">{parsedData.companyName || 'Unknown Company'}</p>
               </div>
               <div className="rounded-xl bg-white/5 p-4">
                 <p className="text-xs text-gray-400">Role</p>
-                <p className="font-semibold">{parsedData.role}</p>
+                <p className="font-semibold">{parsedData.role || 'Unknown Role'}</p>
               </div>
             </div>
 
