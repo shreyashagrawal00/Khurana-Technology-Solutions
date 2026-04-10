@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { TrendingUp, Award, Briefcase, Activity } from 'lucide-react';
 
 export default function Analytics({ applications }: { applications: any[] }) {
