@@ -6,12 +6,14 @@ export default function AuthForm({ onAuth }: { onAuth: () => void }) {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const endpoint = isLogin ? '/auth/login' : '/auth/register';
-      const { data } = await API.post(endpoint, { email, password });
+      const payload = isLogin ? { email, password } : { email, password, fullName };
+      const { data } = await API.post(endpoint, payload);
       if (isLogin) {
         localStorage.setItem('token', data.token);
         onAuth();
@@ -32,6 +34,19 @@ export default function AuthForm({ onAuth }: { onAuth: () => void }) {
       >
         <h2 className="mb-6 text-2xl font-bold">{isLogin ? 'Login' : 'Register'}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {!isLogin && (
+            <div>
+              <label className="block text-sm text-gray-400">Full Name</label>
+              <input 
+                type="text" 
+                className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 p-3 outline-none focus:border-purple-500"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="John Doe"
+                required
+              />
+            </div>
+          )}
           <div>
             <label className="block text-sm text-gray-400">Email</label>
             <input 
