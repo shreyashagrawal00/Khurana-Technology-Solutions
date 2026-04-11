@@ -1,9 +1,17 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { X, Building2, Calendar, MapPin, Briefcase, Target, Sparkles, FileText, CheckCircle2, Loader2, Copy } from 'lucide-react';
+import { X, Building2, Calendar, MapPin, Briefcase, Target, Sparkles, FileText, CheckCircle2, Loader2, Copy, Trash2 } from 'lucide-react';
 import API from '../services/api';
 
-export default function ViewApplicationModal({ application, onClose }: { application: any, onClose: () => void }) {
+export default function ViewApplicationModal({ 
+  application, 
+  onClose, 
+  onDelete 
+}: { 
+  application: any, 
+  onClose: () => void, 
+  onDelete?: () => void 
+}) {
   const [isGeneratingCL, setIsGeneratingCL] = useState(false);
   const [coverLetter, setCoverLetter] = useState<string | null>(null);
 
@@ -164,6 +172,15 @@ export default function ViewApplicationModal({ application, onClose }: { applica
               </div>
             </div>
           )}
+        </div>
+
+        <div className="mt-8 flex justify-end border-t border-white/5 pt-6">
+          <button 
+            onClick={onDelete}
+            className="flex items-center gap-2 rounded-xl border border-red-500/20 bg-red-500/10 px-6 py-3 font-semibold text-red-400 transition hover:bg-red-500/20"
+          >
+            <Trash2 size={18} /> Delete Application
+          </button>
         </div>
       </motion.div>
     </div>

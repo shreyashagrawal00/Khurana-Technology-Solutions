@@ -4,8 +4,8 @@ dotenv.config();
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import authRoutes from './routes/auth';
-import applicationRoutes from './routes/applications';
+import authRoutes from './routes/auth.js';
+import applicationRoutes from './routes/applications.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;

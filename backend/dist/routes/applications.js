@@ -1,15 +1,11 @@
 import express from 'express';
 import Application from '../models/Application.js';
 import { authenticateToken } from '../middleware/auth.js';
-import { parseJobDescription } from '../services/ai.js';
+import { parseJobDescription, generateCoverLetter } from '../services/ai.js';
 const router = express.Router();
 router.use(authenticateToken);
 router.get('/', async (req, res) => {
     try {
-        if (!req.userId) {
-            res.status(401).json({ error: 'Unauthorized' });
-            return;
-        }
         const applications = await Application.find({ userId: req.userId });
         res.json(applications);
     }
@@ -52,9 +48,24 @@ router.post('/parse', async (req, res) => {
         res.status(500).json({ error: 'Failed to parse JD', details: error });
     }
 });
+router.post('/generate-cover-letter', async (req, res) => {
+    try {
+        const { company, role, jd } = req.body;
+        const coverLetter = await generateCoverLetter(company, role, jd);
+        res.json({ coverLetter });
+    }
+    catch (error) {
+        console.error('AI Cover Letter Error:', error);
+        res.status(500).json({ error: 'Failed to generate cover letter', details: error });
+    }
+});
 router.put('/:id', async (req, res) => {
     try {
-        const application = await Application.findOneAndUpdate({ _id: req.params.id, userId: req.userId }, req.body, { new: true });
+        const { _id, userId, ...updateData } = req.body;
+        const application = await Application.findOneAndUpdate({ _id: req.params.id, userId: req.userId }, updateData, { new: true });
+        if (!application) {
+            return res.status(404).json({ error: 'Application not found or unauthorized' });
+        }
         res.json(application);
     }
     catch (error) {
@@ -64,12 +75,11 @@ router.put('/:id', async (req, res) => {
 });
 router.delete('/:id', async (req, res) => {
     try {
-        if (!req.userId) {
-            res.status(401).json({ error: 'Unauthorized' });
-            return;
+        const application = await Application.findOneAndDelete({ _id: req.params.id, userId: req.userId });
+        if (!application) {
+            return res.status(404).json({ error: 'Application not found or unauthorized' });
         }
-        await Application.findOneAndDelete({ _id: req.params.id, userId: req.userId });
-        res.json({ message: 'Application deleted' });
+        res.json({ message: 'Application deleted successfully' });
     }
     catch (error) {
         console.error('Delete Application Error:', error);

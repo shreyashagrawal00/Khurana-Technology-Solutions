@@ -6,7 +6,15 @@ import { useQueryClient } from '@tanstack/react-query';
 
 const STAGES = ['Applied', 'Phone Screen', 'Interview', 'Offer', 'Rejected'];
 
-export default function KanbanBoard({ applications, onApplicationClick }: { applications: any[], onApplicationClick: (app: any) => void }) {
+export default function KanbanBoard({ 
+  applications, 
+  onApplicationClick, 
+  onDelete 
+}: { 
+  applications: any[], 
+  onApplicationClick: (app: any) => void, 
+  onDelete: (id: string) => void 
+}) {
   const queryClient = useQueryClient();
 
   const sensors = useSensors(
@@ -44,6 +52,7 @@ export default function KanbanBoard({ applications, onApplicationClick }: { appl
             title={stage} 
             applications={applications.filter(app => app.status === stage)} 
             onApplicationClick={onApplicationClick}
+            onDelete={onDelete}
           />
         ))}
       </div>

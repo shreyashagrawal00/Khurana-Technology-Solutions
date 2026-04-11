@@ -12,10 +12,12 @@ export const authenticateToken = (req: AuthRequest, res: Response, next: NextFun
   if (!token) return res.sendStatus(401);
 
   jwt.verify(token, process.env.JWT_SECRET!, (err: any, decoded: any) => {
-    if (err) {
-      console.error('JWT Verification Error:', err);
-      return res.sendStatus(403);
-    }
+  if (err) {
+    console.error('JWT Verification Error:', err.name || 'Error', err.message);
+    console.error('Raw Header Received:', authHeader);
+    console.error('Extracted Token:', token);
+    return res.sendStatus(403);
+  }
     req.userId = decoded.userId;
     next();
   });

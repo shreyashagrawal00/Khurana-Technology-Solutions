@@ -1,7 +1,7 @@
 import express from 'express';
-import Application from '../models/Application';
-import { authenticateToken, AuthRequest } from '../middleware/auth';
-import { parseJobDescription, generateCoverLetter } from '../services/ai';
+import Application from '../models/Application.js';
+import { authenticateToken, AuthRequest } from '../middleware/auth.js';
+import { parseJobDescription, generateCoverLetter } from '../services/ai.js';
 
 const router = express.Router();
 
